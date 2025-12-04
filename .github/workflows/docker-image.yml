@@ -19,9 +19,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Docker Image
-        run: |
-          docker build -t aayzaz/master-app:latest .
+        run: docker build -t ayzaz/master-app:latest .
 
-      - name: Push to Docker Hub
-        run: |
-          docker push ayzaz/master-app:latest
+      - name: Push Docker Image
+        run: docker push ayzaz/master-app:latest
