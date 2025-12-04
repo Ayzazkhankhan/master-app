@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
 
 # Copy keadm binary into container
 
-RUN chmod +x /usr/local/bin/keadm
+
 
 # Install python dependencies
 RUN pip install flask kubernetes
