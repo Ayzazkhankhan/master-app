@@ -1,12 +1,20 @@
-FROM python:3.10
+FROM python:3.10-slim
 
-# --- Copy keadm binary into image ---
+# Install system dependencies needed for kubernetes client
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy keadm binary into container
 COPY keadm /usr/local/bin/keadm
 RUN chmod +x /usr/local/bin/keadm
 
-# install python
+# Install python dependencies
 RUN pip install flask kubernetes
 
-COPY app.py /app/app.py
+# Copy master app files
 WORKDIR /app
+COPY app.py /app/app.py
+
 CMD ["python3", "app.py"]
