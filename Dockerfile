@@ -1,12 +1,12 @@
-FROM python:3.10-slim
+FROM python:3.10
 
+# --- Copy keadm binary into image ---
+COPY keadm /usr/local/bin/keadm
+RUN chmod +x /usr/local/bin/keadm
+
+# install python
+RUN pip install flask kubernetes
+
+COPY app.py /app/app.py
 WORKDIR /app
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-EXPOSE 5000
-
-CMD ["python", "app.py"]
+CMD ["python3", "app.py"]
