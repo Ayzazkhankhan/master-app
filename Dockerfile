@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 
 
 # Copy keadm binary into container
-COPY keadm /usr/local/bin/keadm
+
 RUN chmod +x /usr/local/bin/keadm
 
 # Install python dependencies
