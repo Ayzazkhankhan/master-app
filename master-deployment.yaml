@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: master-app-sa
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: master-app-access
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: master-app-sa
+  namespace: default
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: master-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: master-app
+  template:
+    metadata:
+      labels:
+        app: master-app
+    spec:
+      serviceAccountName: master-app-sa
+      nodeSelector:
+        kubernetes.io/hostname: cloud-core
+      containers:
+      - name: master-app
+        image: yourdocker/master-app:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: master-app
+spec:
+  type: NodePort
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 30500
+  selector:
+    app: master-app
