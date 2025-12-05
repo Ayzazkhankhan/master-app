@@ -8,7 +8,6 @@ RUN apt-get update && apt-get install -y \
 RUN pip install flask kubernetes
 
 
-
 WORKDIR /app
 COPY app.py /app/app.py
 
